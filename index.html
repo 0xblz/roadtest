@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Cam Viewer</title>
+    <!-- Include Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <style>
+        *,
+        html {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: black;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: red;
+        }
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .video-item {
+            max-width: 600px;
+            width: 100%;
+        }
+        .video-js {
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <div class="video-item">
+            <h2>70 at Oak Grove, MM 28.2</h2>
+            <!-- Video.js Player -->
+            <video id="videoPlayer10957_html5_api" class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted>
+                <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_340/playlist.m3u8" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <div class="video-item">
+            <h2>70 at Odessa, MM 37.71</h2>
+            <!-- Video.js Player for Odessa -->
+            <video id="videoPlayerOdessa" class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted>
+                <source src="https://sfs03-traveler.modot.mo.gov/rtplive/MODOT_CAM_341/playlist.m3u8" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <div class="video-item">
+            <h2>I-70 WB Before Adams Dairy Pkwy</h2>
+            <!-- Video.js Player for Adams Dairy Pkwy -->
+            <video id="videoPlayerAdamsDairy" class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted>
+                <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_340/playlist.m3u8" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <div class="video-item">
+            <h2>I-70 WB Past MO-7</h2>
+            <!-- Video.js Player for I-70 WB Past MO-7 -->
+            <video id="videoPlayerPastMO7" class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted>
+                <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_339/playlist.m3u8" type="application/x-mpegURL">
+            </video>
+        </div>
+    </div>
+
+    <!-- Include Video.js JavaScript -->
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+</body>
+</html> 
