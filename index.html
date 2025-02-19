@@ -39,6 +39,15 @@
             color: white;
             background: linear-gradient(to bottom, var(--color-primary), var(--color-tertiary));
         }
+        a {
+            transition: all 0.15s ease-in-out;
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        a:hover {
+            color: rgba(255, 255, 255, 0.5);
+        }
         h1 {
             text-transform: uppercase;
             font-size: 1.8rem;
@@ -47,13 +56,16 @@
         }
         h2 {
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 500;
             text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
         }
         h3 {
             font-size: 1.2rem;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.5);
+        }
+        small {
+            font-size: 0.8rem;
         }
         main {
             display: flex;
@@ -78,6 +90,12 @@
         footer {
             justify-content: space-between;
             align-items: center;
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
         .video-item {
             transition: all 0.15s ease-in-out;
@@ -125,7 +143,10 @@
     <main>
         <header>
             <h1>How The Roads? 🛣️</h1>
-            <h2 id="temperature-text">Loading temperature...</h2>
+            <nav>
+                <h2 id="temperature-text">Loading temperature...</h2>
+                <h2><a href="#" target="_blank">🍎 get the app</a></h2>
+            </nav>
         </header>
         <div class="video-container">
             <div class="video-item">
@@ -238,8 +259,8 @@
             </div>
         </div>
         <footer>
-            <h3>safe travels</h3>
-            <h3>made in mo</h3>
+            <h3>❤️ modot cams <small>(refresh if videos are frozen)</small></h3>
+            <h3>safe travels kc</h3>
         </footer>
     </main>
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
