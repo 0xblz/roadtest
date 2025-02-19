@@ -3,121 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Cam Viewer</title>
-    <!-- Include Video.js CSS -->
+    <title>How The Roads?</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Flag-map_of_Missouri.svg/682px-Flag-map_of_Missouri.svg.png" />
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
         *,
         html {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: black;
+            font-family: "Public Sans", sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
             overflow-x: hidden;
+            color: white;
+            background-color: rgba(24, 120, 255, 1); /* Black overlay with 50% opacity */
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(24, 120, 255, 0.8); /* Black overlay with 50% opacity */
+            z-index: -1;
         }
         h2 {
-            color: red;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem;
+            position: relative;
+            z-index: 1; /* Ensure content is above the overlay */
         }
         .video-container {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
+            max-width: 1200px;
+            width: 100%;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
         .video-item {
+            transition: all 0.15s ease-in-out;
             display: flex;
             flex-direction: column;
             flex: 1;
             min-width: 320px;
-            background-color: darkblue;
-            padding: 1rem;
+            height: 320px;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(1rem);
+            -webkit-backdrop-filter: blur(1rem);
+            padding: 0.75rem;
+            gap: 0.75rem;
+            border-radius: 0.75rem;
         }
         .video-js {
             display: flex;
             flex-direction: column;
             width: 100%;
             overflow: hidden;
+            border-radius: 0.25rem;
         }
-
         /* Responsive styles for mobile devices */
-        @media (max-width: 480px) {
-            .video-js {
-                height: 50vh; /* Further adjust height for very small screens */
+        @media (max-width: 900px) {
+            .video-item:hover {
+                transform: scale(1);
             }
         }
     </style>
 </head>
 <body>
-    <div class="video-container">
-
-        <div class="video-item">
-            <h2>70 at Odessa, MM 37.71</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://sfs03-traveler.modot.mo.gov/rtplive/MODOT_CAM_341/playlist.m3u8" type="application/x-mpegURL">
-            </video>
+    <main>
+        <div class="video-container">
+            <div class="video-item">
+                <h2>I-70 at Odessa</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://sfs03-traveler.modot.mo.gov/rtplive/MODOT_CAM_341/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-70 at Oak Grove</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_340/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-70 WB at Adams Dairy Pkwy</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-35-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-70 EB at MO-7</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBIPC-34-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-70 EB at I-470</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBC-27-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-70 WB at Stadium Dr</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-435 NB before 210</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435NBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
+            <div class="video-item">
+                <h2>I-435 SB at MO-152</h2>
+                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435SBC-26-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
+                </video>
+            </div>
         </div>
-
-        <div class="video-item">
-            <h2>70 at Oak Grove, MM 28.2</h2>
-            <!-- Video.js Player -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_340/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-
-        <div class="video-item">
-            <h2>I-70 WB Before Adams Dairy Pkwy</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-35-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-
-        <div class="video-item">
-            <h2>I-70 EB Past MO-7</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBIPC-34-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-
-        <div class="video-item">
-            <h2>I-70 EB At I-470</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBC-27-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-
-        <div class="video-item">
-            <h2>I-70 WB At Stadium Dr</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-
-        <div class="video-item">
-            <h2>I-435 NB Before the Bridge (210)</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435NBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-
-        <div class="video-item">
-            <h2>I-435 SB at MO-152</h2>
-            <!-- Video.js Player for Odessa -->
-            <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
-                <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435SBC-26-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-            </video>
-        </div>
-    </div>
-
-    <!-- Include Video.js JavaScript -->
+    </main>
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 </body>
 </html> 
