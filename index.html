@@ -48,6 +48,7 @@
         h2 {
             font-size: 1.2rem;
             font-weight: 700;
+            text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
         }
         h3 {
             font-size: 1.2rem;
@@ -124,8 +125,8 @@
 <body>
     <main>
         <header>
-            <h1>How The Roads?</h1>
-            <h3>that darn question again...</h3>
+            <h1>🛣️ How The Roads?</h1>
+            <h3>hope this helps</h3>
         </header>
         <div class="video-container">
             <div class="video-item">
@@ -278,12 +279,43 @@
     gtag('config', 'G-LX0GQ46N1N');
     </script>
     <script>
+        // Weather condition code to emoji mapping
+        const weatherEmojis = {
+            // Thunderstorm
+            2: '⛈️',
+            // Drizzle
+            3: '🌧️',
+            // Rain
+            5: '🌧️',
+            // Snow
+            6: '❄️',
+            // Atmosphere (mist, fog, etc)
+            7: '🌫️',
+            // Clear
+            800: '☀️',
+            // Clouds
+            801: '🌤️',  // few clouds
+            802: '⛅',  // scattered clouds
+            803: '🌥️',  // broken clouds
+            804: '☁️',  // overcast
+        };
+
+        function getWeatherEmoji(conditionCode) {
+            // Check exact match first
+            if (weatherEmojis[conditionCode]) return weatherEmojis[conditionCode];
+            // Check group match (first digit)
+            const group = Math.floor(conditionCode / 100);
+            return weatherEmojis[group] || '🌡️'; // default thermometer if no match
+        }
+
         // Fetch weather data for Kansas City
         fetch('https://api.openweathermap.org/data/2.5/weather?q=Kansas City,US&units=imperial&appid=5c13a03805524eb2be8398fe185d9947')
             .then(response => response.json())
             .then(data => {
                 const temp = Math.round(data.main.temp);
-                document.getElementById('temperature-text').textContent = `it's currently ${temp}°f`;
+                const weatherCode = data.weather[0].id;
+                const emoji = getWeatherEmoji(weatherCode);
+                document.getElementById('temperature-text').textContent = `${emoji} it's currently ${temp}°f`;
             })
             .catch(error => {
                 console.error('Error fetching weather:', error);
