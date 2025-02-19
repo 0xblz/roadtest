@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How The Roads?</title>
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Flag-map_of_Missouri.svg/682px-Flag-map_of_Missouri.svg.png" />
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -85,11 +85,30 @@
             background-color: rgba(0, 0, 0, 0.5);
             padding: 0.75rem;
         }
-        .video-js {
-            display: flex;
-            flex-direction: column;
+        .video-item video {
             width: 100%;
-            overflow: hidden;
+            height: 100%;
+            object-fit: cover;
+        }
+        .vjs-theme-city {
+            --vjs-theme-city--primary: var(--color-primary);
+            --vjs-theme-city--secondary: var(--color-secondary);
+        }
+
+        /* Plyr custom styles */
+        .plyr {
+            height: 100%;
+            --plyr-color-main: var(--color-primary);
+        }
+        
+        .plyr video {
+            object-fit: cover;
+        }
+
+        /* Hide some Plyr controls for cleaner look */
+        .plyr--video .plyr__controls {
+            background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.6));
+            padding: 8px;
         }
 
         @media (max-width: 600px) {
@@ -112,109 +131,109 @@
         <div class="video-container">
             <div class="video-item">
                 <h2>I-70 at Odessa</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://sfs03-traveler.modot.mo.gov/rtplive/MODOT_CAM_341/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-70 at Oak Grove</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_340/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-70 WB before Adams Dairy Pkwy</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-35-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-70 EB past MO-7</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBIPC-34-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-70 EB at I-470</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBC-27-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-470 SB at Woods Chapel</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M470SBC-08-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-470 WB at Blue Pkwy</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M470WBC-05-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-470 WB at Blue Ridge Blvd</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M470WBC-02-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-70 WB at Stadium Dr</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-70 WB at Benton Blvd</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBC-10-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-35 NB at Paseo Blvd</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035NBC-08-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-435 NB before MO-210</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435NBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-35 SB past I-435</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035SBC-18-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-435 SB at MO-152</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435SBC-26-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-35 SB at MO-291</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035SBIPC-54-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-169 NB past NW 68TH ST</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M169NBC-25-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-29 NB at Barry Road</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M029NBIPC-15-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
             <div class="video-item">
                 <h2>I-29 NB at 64TH ST</h2>
-                <video class="video-js vjs-default-skin" controls preload="auto" width="600" height="400" poster="https://trafficcamarchive.com/images/missouriThumbnail.jpg" data-setup='{}' autoplay muted playsinline>
+                <video controls crossorigin playsinline autoplay muted>
                     <source src="https://5fca316e7c40f.streamlock.net/live-secure/M029NBC-07-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
                 </video>
             </div>
@@ -224,7 +243,32 @@
             <h3>made in mo</h3>
         </footer>
     </main>
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        document.querySelectorAll('video').forEach(video => {
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(video.querySelector('source').src);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    const player = new Plyr(video, {
+                        controls: ['play', 'mute', 'volume', 'fullscreen'],
+                        hideControls: true,
+                        resetOnEnd: true,
+                        keyboard: false
+                    });
+                });
+            } else {
+                const player = new Plyr(video, {
+                    controls: ['play', 'mute', 'volume', 'fullscreen'],
+                    hideControls: true,
+                    resetOnEnd: true,
+                    keyboard: false
+                });
+            }
+        });
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX0GQ46N1N"></script>
     <script>
