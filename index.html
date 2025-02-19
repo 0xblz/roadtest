@@ -139,7 +139,7 @@
             </div>
         </div>
         <footer>
-            <h2>it's cold out there</h2>
+            <h2 id="temperature-text">Loading temperature...</h2>
             <h3>made in mo</h3>
         </footer>
     </main>
@@ -152,6 +152,19 @@
     gtag('js', new Date());
 
     gtag('config', 'G-LX0GQ46N1N');
+    </script>
+    <script>
+        // Fetch weather data for Kansas City
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=Kansas City,US&units=imperial&appid=5c13a03805524eb2be8398fe185d9947')
+            .then(response => response.json())
+            .then(data => {
+                const temp = Math.round(data.main.temp);
+                document.getElementById('temperature-text').textContent = `${temp}°F in Kansas City`;
+            })
+            .catch(error => {
+                console.error('Error fetching weather:', error);
+                document.getElementById('temperature-text').textContent = "Unable to load temperature";
+            });
     </script>
 </body>
 </html> 
