@@ -50,7 +50,7 @@
         }
         h1 {
             text-transform: uppercase;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             text-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
         }
@@ -97,6 +97,16 @@
             align-items: center;
             gap: 1.5rem;
             flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .logo img {
+            width: 3rem;
+            height: 3rem;
+            opacity: 0.4;
         }
         .app-icon {
             display: flex;
@@ -154,7 +164,10 @@
 <body>
     <main>
         <header>
-            <h1>How's The Roads? 🛣️</h1>
+            <div class="logo">
+                <h1>How's The Roads?</h1>
+                <img src="/kc.svg" alt="kcmo" />
+            </div>
             <nav>
                 <h2 id="temperature-text">fetching...</h2>
                 <h2><a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="app-icon"><img src="/appicon.jpg" alt="app icon" /> get the app</a></h2>
@@ -289,10 +302,10 @@
             </div>
         </div>
         <footer>
-            <h3><a href="/">🔄 refresh if videos are frozen</a></h3>
+            <h3><a href="/">🔄 click here to refresh frozen videos</a></h3>
             <nav>
-                <h3><a href="https://forms.gle/ZnyUcmjtj7SFWeyo8" target="_blank">💬 feedback</a></h3>
-                <h3>safe travels kc</h3>
+                <h3><a href="https://forms.gle/ZnyUcmjtj7SFWeyo8" target="_blank">💬 request</a></h3>
+                <h3>🛣️ safe travels</h3>
             </nav>
         </footer>
     </main>
@@ -385,7 +398,7 @@
                 const isNight = currentTime < sunrise || currentTime > sunset;
                 
                 const emoji = getWeatherEmoji(weatherCode, isNight);
-                document.getElementById('temperature-text').textContent = `${emoji} ${temp}°f`;
+                document.getElementById('temperature-text').textContent = `${emoji} ${temp}°f in kc`;
             })
             .catch(error => {
                 console.error('Error fetching weather:', error);
