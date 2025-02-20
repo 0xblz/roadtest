@@ -95,8 +95,19 @@
         footer nav {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
+        }
+        .app-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .app-icon img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
         }
         .video-item {
             transition: all 0.15s ease-in-out;
@@ -146,7 +157,7 @@
             <h1>How The Roads? 🛣️</h1>
             <nav>
                 <h2 id="temperature-text">fetching...</h2>
-                <h2><a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank">🍎 get the app</a></h2>
+                <h2><a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="app-icon"><img src="/appicon.jpg" alt="app icon" /> get the app</a></h2>
             </nav>
         </header>
         <div class="video-container">
@@ -334,7 +345,10 @@
             // Atmosphere (mist, fog, etc)
             7: '🌫️',
             // Clear
-            800: '☀️',
+            800: {
+                day: '☀️',
+                night: '🌙'
+            },
             // Clouds
             801: '🌤️',  // few clouds
             802: '⛅',  // scattered clouds
@@ -342,9 +356,16 @@
             804: '☁️',  // overcast
         };
 
-        function getWeatherEmoji(conditionCode) {
+        function getWeatherEmoji(conditionCode, isNight) {
             // Check exact match first
-            if (weatherEmojis[conditionCode]) return weatherEmojis[conditionCode];
+            const emoji = weatherEmojis[conditionCode];
+            if (emoji) {
+                // If it's the clear weather object, return appropriate time-based emoji
+                if (typeof emoji === 'object') {
+                    return isNight ? emoji.night : emoji.day;
+                }
+                return emoji;
+            }
             // Check group match (first digit)
             const group = Math.floor(conditionCode / 100);
             return weatherEmojis[group] || '🌡️'; // default thermometer if no match
@@ -356,7 +377,14 @@
             .then(data => {
                 const temp = Math.round(data.main.temp);
                 const weatherCode = data.weather[0].id;
-                const emoji = getWeatherEmoji(weatherCode);
+                
+                // Check if it's night time
+                const currentTime = data.dt;
+                const sunrise = data.sys.sunrise;
+                const sunset = data.sys.sunset;
+                const isNight = currentTime < sunrise || currentTime > sunset;
+                
+                const emoji = getWeatherEmoji(weatherCode, isNight);
                 document.getElementById('temperature-text').textContent = `${emoji} ${temp}°f`;
             })
             .catch(error => {
