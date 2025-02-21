@@ -173,10 +173,26 @@
                 transform: translateY(0);
             }
         }
+
+        .loading-message {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
     </style>
 </head>
 <body>
-    <main>
+    <main class="main-container">
         <header>
             <h1><i class="fa-solid fa-road"></i> How's The Roads?</h1>
             <nav>
@@ -184,151 +200,11 @@
                 <h2 id="temperature-text">fetching...</h2>
             </nav>
         </header>
-        <div class="video-container">
-            <div class="video-item">
-                <h2>I-70 at Odessa</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://sfs03-traveler.modot.mo.gov/rtplive/MODOT_CAM_341/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 at Oak Grove</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_340/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 WB before Adams Dairy Pkwy</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-35-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 EB past MO-7</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBIPC-34-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 EB at I-470</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070EBC-27-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-470 SB at Woods Chapel</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M470SBC-08-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-470 WB at Blue Pkwy</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M470WBC-05-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-470 WB at Blue Ridge Blvd</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M470WBC-02-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 WB at Stadium Dr</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 WB at Benton Blvd</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBC-10-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-35 NB at Paseo Blvd</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035NBC-08-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-35 NB at Front St</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035NBC-08A-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-70 WB at Main St</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M070WBC-02-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-670 WB past Summit St</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M670WBIPC-01B-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-435 NB before MO-210</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435NBIPC-19-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-35 SB past I-435</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035SBC-18-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-435 SB at MO-152</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435SBC-26-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-35 SB at MO-291</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035SBIPC-54-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-169 NB past NW 68TH ST</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M169NBC-25-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-29 NB at Barry Road</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M029NBIPC-15-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-29 NB at 64TH ST</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M029NBC-07-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-35 NB at US-69</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035NBC-56-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-35 SB at MO-92</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M035SBC-62-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
-            <div class="video-item">
-                <h2>I-435 EB at US-169</h2>
-                <video controls crossorigin playsinline autoplay muted>
-                    <source src="https://5fca316e7c40f.streamlock.net/live-secure/M435EBC-61-LQ.stream/playlist.m3u8" type="application/x-mpegURL">
-                </video>
-            </div>
+        <div id="loading-message" class="loading-message">
+            <h3>loading kansas city...</h3>
+        </div>
+        <div class="video-container" id="video-container" style="display: none;">
+            <!-- Video items will be dynamically inserted here -->
         </div>
         <footer>
             <h3><a href="/"><i class="fa-solid fa-arrows-rotate"></i> click to refresh frozen cams</a></h3>
@@ -344,39 +220,63 @@
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        document.querySelectorAll('video').forEach(video => {
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(video.querySelector('source').src);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    const player = new Plyr(video, {
-                        controls: ['play', 'mute', 'volume', 'fullscreen'],
-                        hideControls: true,
-                        resetOnEnd: true,
-                        keyboard: false
-                    });
-                });
-            } else {
-                const player = new Plyr(video, {
-                    controls: ['play', 'mute', 'volume', 'fullscreen'],
-                    hideControls: true,
-                    resetOnEnd: true,
-                    keyboard: false
-                });
-            }
-        });
-    </script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX0GQ46N1N"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        // Fetch video data from JSON and populate the video container
+        fetch('https://0xblz.github.io/docs/kansascity.json')
+            .then(response => response.json())
+            .then(data => {
+                const videos = data.videos || data; // Adjust this line based on the actual JSON structure
+                if (!videos || !Array.isArray(videos)) {
+                    throw new Error('Invalid video data format');
+                }
 
-    gtag('config', 'G-LX0GQ46N1N');
-    </script>
-    <script>
+                const videoContainer = document.getElementById('video-container');
+                const loadingMessage = document.getElementById('loading-message');
+                
+                videos.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-item';
+                    videoItem.innerHTML = `
+                        <h2>${video.name}</h2>
+                        <video controls crossorigin playsinline autoplay muted>
+                            <source src="${video.url}" type="application/x-mpegURL">
+                        </video>
+                    `;
+                    videoContainer.appendChild(videoItem);
+                });
+
+                // Hide loading message and show video container
+                loadingMessage.style.display = 'none';
+                videoContainer.style.display = 'flex';
+
+                // Initialize Plyr for each video
+                document.querySelectorAll('video').forEach(video => {
+                    if (Hls.isSupported()) {
+                        const hls = new Hls();
+                        hls.loadSource(video.querySelector('source').src);
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                            new Plyr(video, {
+                                controls: ['play', 'mute', 'volume', 'fullscreen'],
+                                hideControls: true,
+                                resetOnEnd: true,
+                                keyboard: false
+                            });
+                        });
+                    } else {
+                        new Plyr(video, {
+                            controls: ['play', 'mute', 'volume', 'fullscreen'],
+                            hideControls: true,
+                            resetOnEnd: true,
+                            keyboard: false
+                        });
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching video data:', error);
+                document.getElementById('loading-message').textContent = "Error loading videos.";
+            });
+
         // Weather condition code to emoji mapping
         const weatherEmojis = {
             // Thunderstorm
@@ -436,6 +336,15 @@
                 console.error('Error fetching weather:', error);
                 document.getElementById('temperature-text').textContent = "Unable to load temperature";
             });
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX0GQ46N1N"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-LX0GQ46N1N');
     </script>
 </body>
 </html> 
