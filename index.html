@@ -63,12 +63,6 @@
             font-weight: 600;
             text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
         }
-        h2.weather-text {
-            display: flex;
-            padding: 0.5rem;
-            border-radius: 9999px;
-            background-color: rgba(0, 0, 0, 0.1);
-        }
         h3 {
             font-size: 1.1rem;
             font-weight: 500;
@@ -117,7 +111,15 @@
             border-top-right-radius: 0.75rem;
         }
         .highlight {
-            color: var(--color-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background-color: var(--color-secondary);
+            padding: 0.75rem;
+            border-radius: 9999px;
+            color: var(--color-primary);
+            text-shadow: none;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
         }
         .logo {
             display: flex;
@@ -205,8 +207,8 @@
         <header>
             <h1><i class="fa-solid fa-road"></i> How's The Roads?</h1>
             <nav>
+                <h2 id="temperature-text">fetching...</h2>
                 <h2><a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="highlight"><i class="fa-brands fa-app-store-ios"></i> get the app <i class="fa-solid fa-arrow-up-right-from-square"></i></a></h2>
-                <h2 class="weather-text" id="temperature-text">fetching...</h2>
             </nav>
         </header>
         <div id="loading-message" class="loading-message">
