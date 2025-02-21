@@ -15,10 +15,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
         :root {
-            --color-primary: rgb(0, 109, 225);
-            --color-secondary: rgb(0, 11, 23);
-            --color-tertiary: rgb(233, 144, 255);
-            --color-quaternary: rgb(243, 194, 255);
+            --color-primary: #E31837;
+            --color-secondary: #FFB81C;
+            --color-tertiary: #ffe6af;
         }
         *,
         html {
@@ -28,11 +27,11 @@
         }
         ::selection {
             background-color: var(--color-primary);
-            color: var(--color-tertiary);
+            color: var(--color-secondary);
         }
         ::-webkit-selection {
             background-color: var(--color-primary);
-            color: var(--color-tertiary);
+            color: var(--color-secondary);
         }
         html {
             background-color: var(--color-primary);
@@ -51,7 +50,7 @@
             text-decoration: none;
         }
         a:hover {
-            color: rgba(255, 255, 255, 0.5);
+            opacity: 0.6;
         }
         h1 {
             text-transform: uppercase;
@@ -63,6 +62,12 @@
             font-size: 1.1rem;
             font-weight: 600;
             text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        h2.weather-text {
+            display: flex;
+            padding: 0.5rem;
+            border-radius: 9999px;
+            background-color: rgba(0, 0, 0, 0.1);
         }
         h3 {
             font-size: 1.1rem;
@@ -78,6 +83,7 @@
             align-items: center;
             width: 100%;
             padding: 0.75rem;
+            padding-bottom: 0;
             gap: 0.75rem;
             position: relative;
             z-index: 1; /* Ensure content is above the overlay */
@@ -104,11 +110,14 @@
             gap: 1.5rem;
             flex-wrap: wrap;
         }
-        .highlight {
-            color: var(--color-quaternary);
+        footer {
+            padding: 1.5rem;
+            background-color: var(--color-primary);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
         }
-        .highlight:hover {
-            color: white;
+        .highlight {
+            color: var(--color-secondary);
         }
         .logo {
             display: flex;
@@ -144,7 +153,7 @@
         }
         .vjs-theme-city {
             --vjs-theme-city--primary: var(--color-primary);
-            --vjs-theme-city--secondary: var(--color-secondary);
+            --vjs-theme-city--secondary: black;
         }
 
         /* Plyr custom styles */
@@ -197,7 +206,7 @@
             <h1><i class="fa-solid fa-road"></i> How's The Roads?</h1>
             <nav>
                 <h2><a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="highlight"><i class="fa-brands fa-app-store-ios"></i> get the app <i class="fa-solid fa-arrow-up-right-from-square"></i></a></h2>
-                <h2 id="temperature-text">fetching...</h2>
+                <h2 class="weather-text" id="temperature-text">fetching...</h2>
             </nav>
         </header>
         <div id="loading-message" class="loading-message">
