@@ -201,6 +201,22 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
+        .video-item h2 a {
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .video-item h2 a:hover {
+            color: var(--color-secondary);
+        }
+
+        .video-item h2 a i {
+            font-size: 0.8em;
+        }
     </style>
 </head>
 <body>
@@ -248,8 +264,12 @@
                 videos.forEach(video => {
                     const videoItem = document.createElement('div');
                     videoItem.className = 'video-item';
+                    
+                    // Create Google Maps link with coordinates
+                    const mapsUrl = `https://www.google.com/maps?q=${video.latitude},${video.longitude}`;
+                    
                     videoItem.innerHTML = `
-                        <h2>${video.name}</h2>
+                        <h2><a href="${mapsUrl}" target="_blank" title="View on map"><i class="fa-solid fa-location-dot"></i> ${video.name}</a></h2>
                         <video controls crossorigin playsinline autoplay muted>
                             <source src="${video.url}" type="application/x-mpegURL">
                         </video>
