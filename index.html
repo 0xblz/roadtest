@@ -288,65 +288,93 @@
                 document.getElementById('loading-message').textContent = "Error loading videos.";
             });
 
-        // Weather condition code to emoji mapping
+        // Weather condition to emoji mapping for NOAA descriptions
         const weatherEmojis = {
-            // Thunderstorm
-            2: '⛈️',
-            // Drizzle
-            3: '🌧️',
-            // Rain
-            5: '🌧️',
-            // Snow
-            6: '❄️',
-            // Atmosphere (mist, fog, etc)
-            7: '🌫️',
-            // Clear
-            800: {
+            'Clear': {
                 day: '☀️',
                 night: '🌙'
             },
-            // Clouds
-            801: '🌤️',  // few clouds
-            802: '⛅',  // scattered clouds
-            803: '🌥️',  // broken clouds
-            804: '☁️',  // overcast
+            'Mostly Clear': {
+                day: '🌤️',
+                night: '🌙'
+            },
+            'Partly Cloudy': {
+                day: '⛅',
+                night: '☁️'
+            },
+            'Mostly Cloudy': '🌥️',
+            'Cloudy': '☁️',
+            'Fair': {
+                day: '☀️',
+                night: '🌙'
+            },
+            'Rain': '🌧️',
+            'Light Rain': '🌧️',
+            'Heavy Rain': '🌧️',
+            'Rain Showers': '🌦️',
+            'Showers': '🌦️',
+            'Slight Chance Rain Showers': '🌦️',
+            'Chance Rain Showers': '🌦️',
+            'Snow': '❄️',
+            'Light Snow': '🌨️',
+            'Heavy Snow': '❄️',
+            'Fog': '🌫️',
+            'Thunderstorms': '⛈️',
+            'Chance Thunderstorms': '⛈️',
+            'Isolated Thunderstorms': '⛈️',
+            'Scattered Thunderstorms': '⛈️',
+            'Windy': '💨',
+            'Sunny': '☀️',
+            'Mostly Sunny': '🌤️',
+            'Partly Sunny': '⛅'
         };
 
-        function getWeatherEmoji(conditionCode, isNight) {
-            // Check exact match first
-            const emoji = weatherEmojis[conditionCode];
+        function getWeatherEmoji(description, isNight) {
+            const emoji = weatherEmojis[description];
             if (emoji) {
-                // If it's the clear weather object, return appropriate time-based emoji
+                // If it's an object with day/night variants
                 if (typeof emoji === 'object') {
                     return isNight ? emoji.night : emoji.day;
                 }
                 return emoji;
             }
-            // Check group match (first digit)
-            const group = Math.floor(conditionCode / 100);
-            return weatherEmojis[group] || '🌡️'; // default thermometer if no match
+            return '🌡️'; // default thermometer if no match
         }
 
-        // Fetch weather data for Kansas City
-        fetch('https://api.openweathermap.org/data/2.5/weather?q=Kansas City,US&units=imperial&appid=5c13a03805524eb2be8398fe185d9947')
-            .then(response => response.json())
-            .then(data => {
-                const temp = Math.round(data.main.temp);
-                const weatherCode = data.weather[0].id;
-                
-                // Check if it's night time
-                const currentTime = data.dt;
-                const sunrise = data.sys.sunrise;
-                const sunset = data.sys.sunset;
-                const isNight = currentTime < sunrise || currentTime > sunset;
-                
-                const emoji = getWeatherEmoji(weatherCode, isNight);
-                document.getElementById('temperature-text').textContent = `${emoji} ${temp}°f in kc`;
-            })
-            .catch(error => {
-                console.error('Error fetching weather:', error);
-                document.getElementById('temperature-text').textContent = "Unable to load temperature";
+        // Kansas City International Airport coordinates
+        const lat = '39.2976';
+        const lon = '-94.7139';
+
+        // Fetch weather data from NOAA API
+        fetch(`https://api.weather.gov/points/${lat},${lon}`, {
+            headers: {
+                'User-Agent': '(howtheroads.com, contact@howtheroads.com)'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Get the forecast URL from the response
+            return fetch(data.properties.forecast, {
+                headers: {
+                    'User-Agent': '(howtheroads.com, contact@howtheroads.com)'
+                }
             });
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Get current period's forecast
+            const currentPeriod = data.properties.periods[0];
+            const temp = Math.round(currentPeriod.temperature);
+            const description = currentPeriod.shortForecast;
+            const isDaytime = currentPeriod.isDaytime;
+            
+            const emoji = getWeatherEmoji(description, !isDaytime);
+            document.getElementById('temperature-text').textContent = `${emoji} ${temp}°f in kc`;
+        })
+        .catch(error => {
+            console.error('Error fetching weather:', error);
+            document.getElementById('temperature-text').textContent = "Unable to load temperature";
+        });
     </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX0GQ46N1N"></script>
@@ -358,4 +386,4 @@
     gtag('config', 'G-LX0GQ46N1N');
     </script>
 </body>
-</html> 
+</html>
