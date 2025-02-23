@@ -367,7 +367,7 @@
         const lat = '39.2976';
         const lon = '-94.7139';
 
-        // Fetch weather data from NOAA API
+        // Fetch weather data from NOAA API using hourly forecast
         fetch(`https://api.weather.gov/points/${lat},${lon}`, {
             headers: {
                 'User-Agent': '(howtheroads.com, contact@howtheroads.com)'
@@ -375,8 +375,8 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Get the forecast URL from the response
-            return fetch(data.properties.forecast, {
+            // Get the hourly forecast URL from the response
+            return fetch(data.properties.forecastHourly, {
                 headers: {
                     'User-Agent': '(howtheroads.com, contact@howtheroads.com)'
                 }
@@ -384,7 +384,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Get current period's forecast
+            // Get current hour's forecast
             const currentPeriod = data.properties.periods[0];
             const temp = Math.round(currentPeriod.temperature);
             const description = currentPeriod.shortForecast;
