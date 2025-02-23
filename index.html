@@ -310,93 +310,61 @@
                 document.getElementById('loading-message').textContent = "Error loading videos.";
             });
 
-        // Weather condition to emoji mapping for NOAA descriptions
-        const weatherEmojis = {
-            'Clear': {
-                day: '☀️',
-                night: '🌙'
-            },
-            'Mostly Clear': {
-                day: '🌤️',
-                night: '🌙'
-            },
-            'Partly Cloudy': {
-                day: '⛅',
-                night: '☁️'
-            },
-            'Mostly Cloudy': '🌥️',
-            'Cloudy': '☁️',
-            'Fair': {
-                day: '☀️',
-                night: '🌙'
-            },
-            'Rain': '🌧️',
-            'Light Rain': '🌧️',
-            'Heavy Rain': '🌧️',
-            'Rain Showers': '🌦️',
-            'Showers': '🌦️',
-            'Slight Chance Rain Showers': '🌦️',
-            'Chance Rain Showers': '🌦️',
-            'Snow': '❄️',
-            'Light Snow': '🌨️',
-            'Heavy Snow': '❄️',
-            'Fog': '🌫️',
-            'Thunderstorms': '⛈️',
-            'Chance Thunderstorms': '⛈️',
-            'Isolated Thunderstorms': '⛈️',
-            'Scattered Thunderstorms': '⛈️',
-            'Windy': '💨',
-            'Sunny': '☀️',
-            'Mostly Sunny': '🌤️',
-            'Partly Sunny': '⛅'
-        };
-
-        function getWeatherEmoji(description, isNight) {
-            const emoji = weatherEmojis[description];
-            if (emoji) {
-                // If it's an object with day/night variants
-                if (typeof emoji === 'object') {
-                    return isNight ? emoji.night : emoji.day;
-                }
-                return emoji;
-            }
-            return '🌡️'; // default thermometer if no match
-        }
-
-        // Kansas City International Airport coordinates
-        const lat = '39.2976';
-        const lon = '-94.7139';
-
-        // Fetch weather data from NOAA API using hourly forecast
-        fetch(`https://api.weather.gov/points/${lat},${lon}`, {
+        // Fetch weather data from NOAA API using current observations
+        fetch(`https://api.weather.gov/stations/KMCI/observations/latest`, {
             headers: {
                 'User-Agent': '(howtheroads.com, contact@howtheroads.com)'
             }
         })
         .then(response => response.json())
         .then(data => {
-            // Get the hourly forecast URL from the response
-            return fetch(data.properties.forecastHourly, {
-                headers: {
-                    'User-Agent': '(howtheroads.com, contact@howtheroads.com)'
-                }
-            });
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Get current hour's forecast
-            const currentPeriod = data.properties.periods[0];
-            const temp = Math.round(currentPeriod.temperature);
-            const description = currentPeriod.shortForecast;
-            const isDaytime = currentPeriod.isDaytime;
+            const tempC = data.properties.temperature.value || 0;
+            const tempF = Math.round((tempC * 9/5) + 32);
+            const hour = new Date().getHours();
+            const isNight = hour < 6 || hour >= 20;
             
-            const emoji = getWeatherEmoji(description, !isDaytime);
-            document.getElementById('temperature-text').textContent = `${emoji} ${temp}°f in kc`;
+            // Determine weather emoji using the same logic as Swift
+            const emoji = determineWeatherEmoji(
+                data.properties.cloudLayers,
+                data.properties.presentWeather,
+                data.properties.visibility?.value,
+                data.properties.relativeHumidity?.value,
+                isNight
+            );
+            
+            document.getElementById('temperature-text').textContent = `${emoji} ${tempF}°f in kc`;
         })
         .catch(error => {
             console.error('Error fetching weather:', error);
             document.getElementById('temperature-text').textContent = "Unable to load temperature";
         });
+
+        function determineWeatherEmoji(cloudLayers, presentWeather, visibility, humidity, isNight) {
+            // Check for active weather conditions first
+            if (presentWeather && presentWeather.length > 0) {
+                const weather = (presentWeather[0].weather || '').toLowerCase();
+                if (weather.includes('thunder')) return '⛈️';
+                if (weather.includes('rain') || weather.includes('shower')) return '🌧️';
+                if (weather.includes('snow')) return '❄️';
+            }
+            
+            // Check visibility for fog/mist
+            if (visibility && visibility < 10000) return '🌫️';
+            
+            // Determine cloud coverage
+            if (!cloudLayers || cloudLayers.length === 0) {
+                return isNight ? '🌙' : '☀️'; // Clear skies
+            }
+            
+            const cloudAmount = (cloudLayers[0].amount || '').toLowerCase();
+            switch (cloudAmount) {
+                case 'overcast': return '☁️';
+                case 'broken': return '🌥️';
+                case 'scattered': return '⛅';
+                case 'few': return '🌤️';
+                default: return isNight ? '🌙' : '☀️';
+            }
+        }
     </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX0GQ46N1N"></script>
