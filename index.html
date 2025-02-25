@@ -132,11 +132,32 @@
             text-shadow: none;
             box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
             position: relative;
+            transition: all 0.15s ease-in-out;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
         }
-        .highlight:hover small {
+        
+        .highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight-app {
+            position: relative;
+        }
+        
+        .highlight-app:hover small {
             transform: translate(-0.75rem, -70%) scale(1.1);
         }
-        .highlight small {
+        
+        .highlight-app small {
             transition: all 0.15s ease-in-out;
             font-size: 0.75rem;
             font-weight: 800;
@@ -149,6 +170,12 @@
             color: var(--color-primary);
             border-radius: 9999px;
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight-fullwidth {
+            width: 100%;
+            max-width: 1200px;
+            justify-content: center;
         }
         .logo {
             display: flex;
@@ -245,6 +272,14 @@
         .video-item h2 a i {
             font-size: 0.8em;
         }
+
+        /* Load more button styles */
+        .load-more-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
     </style>
 </head>
 <body>
@@ -253,7 +288,7 @@
             <h1><i class="fa-solid fa-road"></i> How's The Roads?</h1>
             <nav>
                 <h2 id="temperature-text">fetching...</h2>
-                <a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="highlight">get the app <small>new!</small><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="highlight highlight-app">get the app <small>new!</small><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </nav>
         </header>
         <div id="loading-message" class="loading-message">
@@ -261,6 +296,11 @@
         </div>
         <div class="video-container" id="video-container" style="display: none;">
             <!-- Video items will be dynamically inserted here -->
+        </div>
+        <div class="load-more-container" id="load-more-container" style="display: none;">
+            <button class="highlight highlight-fullwidth" id="load-more-btn">
+                <i class="fa-solid fa-plus"></i> load more
+            </button>
         </div>
         <footer>
             <nav>
@@ -272,7 +312,7 @@
                     <h3>safe travels</h3>
                     <img src="/kc.svg" alt="kcmo" />
                 </div>
-                <a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="highlight">get the app <small>new!</small><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                <a href="https://apps.apple.com/us/app/how-the-roads/id6742173400" target="_blank" class="highlight highlight-app">get the app <small>new!</small><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </nav>
         </footer>
     </main>
@@ -290,29 +330,52 @@
 
                 const videoContainer = document.getElementById('video-container');
                 const loadingMessage = document.getElementById('loading-message');
+                const loadMoreContainer = document.getElementById('load-more-container');
+                const loadMoreBtn = document.getElementById('load-more-btn');
                 
-                videos.forEach(video => {
-                    const videoItem = document.createElement('div');
-                    videoItem.className = 'video-item';
+                // Store all videos
+                const allVideos = [...videos];
+                
+                // Number of videos to show initially and each time "Load More" is clicked
+                const videosPerLoad = 9;
+                let videosLoaded = 0;
+                
+                // Function to load videos
+                function loadVideos(start, count) {
+                    const videosToLoad = allVideos.slice(start, start + count);
                     
-                    // Create Google Maps link with coordinates
-                    const mapsUrl = `https://www.google.com/maps?q=${video.latitude},${video.longitude}`;
+                    videosToLoad.forEach(video => {
+                        const videoItem = document.createElement('div');
+                        videoItem.className = 'video-item';
+                        
+                        // Create Google Maps link with coordinates
+                        const mapsUrl = `https://www.google.com/maps?q=${video.latitude},${video.longitude}`;
+                        
+                        videoItem.innerHTML = `
+                            <h2><a href="${mapsUrl}" target="_blank" title="View on map"><i class="fa-solid fa-location-dot"></i> ${video.name}</a></h2>
+                            <video controls crossorigin playsinline autoplay muted>
+                                <source src="${video.url}" type="application/x-mpegURL">
+                            </video>
+                        `;
+                        videoContainer.appendChild(videoItem);
+                        
+                        // Initialize Plyr for the newly added video
+                        const videoElement = videoItem.querySelector('video');
+                        initializeVideoPlayer(videoElement);
+                    });
                     
-                    videoItem.innerHTML = `
-                        <h2><a href="${mapsUrl}" target="_blank" title="View on map"><i class="fa-solid fa-location-dot"></i> ${video.name}</a></h2>
-                        <video controls crossorigin playsinline autoplay muted>
-                            <source src="${video.url}" type="application/x-mpegURL">
-                        </video>
-                    `;
-                    videoContainer.appendChild(videoItem);
-                });
-
-                // Hide loading message and show video container
-                loadingMessage.style.display = 'none';
-                videoContainer.style.display = 'flex';
-
-                // Initialize Plyr for each video
-                document.querySelectorAll('video').forEach(video => {
+                    videosLoaded += videosToLoad.length;
+                    
+                    // Hide "Load More" button if all videos are loaded
+                    if (videosLoaded >= allVideos.length) {
+                        loadMoreContainer.style.display = 'none';
+                    } else {
+                        loadMoreContainer.style.display = 'flex';
+                    }
+                }
+                
+                // Function to initialize video player
+                function initializeVideoPlayer(video) {
                     if (Hls.isSupported()) {
                         const hls = new Hls();
                         hls.loadSource(video.querySelector('source').src);
@@ -333,6 +396,18 @@
                             keyboard: false
                         });
                     }
+                }
+                
+                // Load initial videos
+                loadVideos(0, videosPerLoad);
+                
+                // Hide loading message and show video container
+                loadingMessage.style.display = 'none';
+                videoContainer.style.display = 'flex';
+                
+                // Add event listener to "Load More" button
+                loadMoreBtn.addEventListener('click', () => {
+                    loadVideos(videosLoaded, videosPerLoad);
                 });
             })
             .catch(error => {
