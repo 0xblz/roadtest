@@ -199,38 +199,70 @@ fetch(`https://api.weather.gov/points/${lat},${lon}`, {
  * @returns {string} - Weather emoji representing current conditions
  */
 function determineWeatherEmoji(shortForecast, isNight) {
+    // Convert to lowercase for case-insensitive matching
     const forecast = shortForecast.toLowerCase();
     
-    if (forecast.includes('thunder')) {
-        return '⛈️';
-    } else if (forecast.includes('rain') || forecast.includes('shower')) {
-        return '🌧️';
-    } else if (forecast.includes('snow')) {
-        return '❄️';
-    } else if (forecast.includes('fog') || forecast.includes('mist')) {
-        return '🌫️';
-    } else if (forecast.includes('cloud') || forecast.includes('overcast')) {
-        // Check if it's nighttime first
+    console.log(`🔍 determineWeatherEmoji for: "${shortForecast}", isNight: ${isNight}`);
+    
+    // SPECIAL CASE: If it's daytime and the forecast contains "clear" or "sunny", 
+    // immediately return the sun emoji without further processing
+    if (!isNight && (forecast.includes("clear") || forecast.includes("sunny"))) {
+        console.log("☀️ Daytime clear/sunny condition detected - forcing sun emoji");
+        return "☀️";
+    }
+    
+    // STEP 1: Handle precipitation conditions (these override day/night)
+    if (forecast.includes("thunder")) {
+        return "⛈️"; // Thunderstorm
+    }
+    
+    if (forecast.includes("rain") || forecast.includes("shower")) {
+        return "🌧️"; // Rain
+    }
+    
+    if (forecast.includes("snow") || forecast.includes("flurries")) {
+        return "❄️"; // Snow
+    }
+    
+    if (forecast.includes("fog") || forecast.includes("mist")) {
+        return "🌫️"; // Fog
+    }
+    
+    // STEP 2: Handle cloud conditions based on day/night
+    const hasClouds = forecast.includes("cloud") || 
+                    forecast.includes("overcast") || 
+                    forecast.includes("partly") || 
+                    forecast.includes("mostly");
+    
+    if (hasClouds) {
         if (isNight) {
-            if (forecast.includes('partly')) {
-                return '🌙'; // Moon with some clouds
-            } else if (forecast.includes('mostly')) {
-                return '☁️'; // Just clouds at night
-            } else {
-                return '☁️'; // Overcast at night
-            }
+            // Nighttime cloud conditions - NEVER show moon with clouds
+            return "☁️"; // Just clouds at night
         } else {
             // Daytime cloud conditions
-            if (forecast.includes('partly')) {
-                return '⛅';
-            } else if (forecast.includes('mostly')) {
-                return '🌥️';
+            if (forecast.includes("partly")) {
+                return "⛅"; // Sun with some clouds
+            } else if (forecast.includes("mostly")) {
+                return "🌥️"; // Sun mostly covered by clouds
             } else {
-                return '☁️';
+                return "☁️"; // Completely cloudy
             }
         }
-    } else {
-        // Clear or sunny
-        return isNight ? '��' : '☀️';
     }
+    
+    // STEP 3: Handle clear/sunny conditions
+    const isClear = forecast.includes("clear") || forecast.includes("sunny");
+    
+    if (isClear) {
+        if (isNight) {
+            return "🌙"; // Moon at night
+        } else {
+            return "☀️"; // Sun during day
+        }
+    }
+    
+    // STEP 4: Default fallback based on time of day
+    // If we get here, we couldn't determine the weather from the forecast
+    console.log(`⚠️ Using default emoji for: "${shortForecast}"`);
+    return isNight ? "🌙" : "☀️";
 } 
