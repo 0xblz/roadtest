@@ -131,76 +131,80 @@ fetch('https://0xblz.github.io/docs/kansascity.json')
 // ===== WEATHER FUNCTIONALITY =====
 
 /**
- * Fetch current weather data from NOAA API for Kansas City International Airport (KMCI)
- * Displays temperature and appropriate weather emoji based on conditions
+ * Fetch current weather data from NOAA API for Kansas City
+ * Using a more direct approach with better debugging
  */
-fetch(`https://api.weather.gov/stations/KMCI/observations/latest`, {
+
+// Kansas City coordinates
+const lat = "39.2976";
+const lon = "-94.7139";
+
+// Step 1: Get the grid points for our location
+fetch(`https://api.weather.gov/points/${lat},${lon}`, {
     headers: {
         'User-Agent': '(howstheroads.com, contact@howstheroads.com)'
     }
 })
 .then(response => response.json())
-.then(data => {
-    // Extract and convert temperature from Celsius to Fahrenheit
-    const tempC = data.properties.temperature.value || 0;
-    const tempF = Math.round((tempC * 9/5) + 32);
+.then(pointData => {
+    console.log('Points API Response:', pointData);
     
-    // Determine if it's currently night time (between 8PM and 6AM)
-    const hour = new Date().getHours();
-    const isNight = hour < 6 || hour >= 20;
+    // Extract the forecast endpoint from the response
+    const forecastHourlyUrl = pointData.properties.forecastHourly;
     
-    // Get appropriate weather emoji based on current conditions
-    const emoji = determineWeatherEmoji(
-        data.properties.cloudLayers,
-        data.properties.presentWeather,
-        data.properties.visibility?.value,
-        data.properties.relativeHumidity?.value,
-        isNight
-    );
-    
-    // Update the temperature display
-    document.getElementById('temperature-text').textContent = `${emoji} ${tempF}°f in kc`;
+    // Get the hourly forecast directly - more reliable for current temperature
+    return fetch(forecastHourlyUrl, {
+        headers: {
+            'User-Agent': '(howstheroads.com, contact@howstheroads.com)'
+        }
+    })
+    .then(response => response.json())
+    .then(forecastData => {
+        console.log('Forecast API Response:', forecastData);
+        
+        // Get the current period
+        const currentPeriod = forecastData.properties.periods[0];
+        const tempF = currentPeriod.temperature;
+        const isNight = !currentPeriod.isDaytime;
+        
+        // Get weather condition from the forecast
+        let emoji;
+        const shortForecast = currentPeriod.shortForecast.toLowerCase();
+        
+        if (shortForecast.includes('thunder')) {
+            emoji = '⛈️';
+        } else if (shortForecast.includes('rain') || shortForecast.includes('shower')) {
+            emoji = '🌧️';
+        } else if (shortForecast.includes('snow')) {
+            emoji = '❄️';
+        } else if (shortForecast.includes('fog') || shortForecast.includes('mist')) {
+            emoji = '🌫️';
+        } else if (shortForecast.includes('cloud') || shortForecast.includes('overcast')) {
+            if (shortForecast.includes('partly')) {
+                emoji = '⛅';
+            } else if (shortForecast.includes('mostly')) {
+                emoji = '🌥️';
+            } else {
+                emoji = '☁️';
+            }
+        } else {
+            // Clear or sunny
+            emoji = isNight ? '🌙' : '☀️';
+        }
+        
+        console.log('Weather data processed:', {
+            period: currentPeriod,
+            tempF: tempF,
+            shortForecast: shortForecast,
+            emoji: emoji,
+            isNight: isNight
+        });
+        
+        // Update the temperature display
+        document.getElementById('temperature-text').textContent = `${emoji} ${tempF}°f in kc`;
+    });
 })
 .catch(error => {
-    // Handle errors in fetching or processing weather data
-    console.error('Error fetching weather:', error);
+    console.error('Weather API Error:', error);
     document.getElementById('temperature-text').textContent = "Unable to load temperature";
-});
-
-/**
- * Determine the appropriate weather emoji based on current conditions
- * 
- * @param {Array} cloudLayers - Cloud coverage information
- * @param {Array} presentWeather - Current weather phenomena (rain, snow, etc.)
- * @param {number} visibility - Visibility in meters
- * @param {number} humidity - Relative humidity percentage
- * @param {boolean} isNight - Whether it's currently night time
- * @returns {string} - Weather emoji representing current conditions
- */
-function determineWeatherEmoji(cloudLayers, presentWeather, visibility, humidity, isNight) {
-    // Check for active weather conditions first (priority)
-    if (presentWeather && presentWeather.length > 0) {
-        const weather = (presentWeather[0].weather || '').toLowerCase();
-        if (weather.includes('thunder')) return '⛈️'; // Thunderstorm
-        if (weather.includes('rain') || weather.includes('shower')) return '🌧️'; // Rain
-        if (weather.includes('snow')) return '❄️'; // Snow
-    }
-    
-    // Check visibility for fog/mist (second priority)
-    if (visibility && visibility < 10000) return '🌫️'; // Fog or mist
-    
-    // Determine cloud coverage if no precipitation or fog
-    if (!cloudLayers || cloudLayers.length === 0) {
-        return isNight ? '🌙' : '☀️'; // Clear skies (night/day)
-    }
-    
-    // Different cloud coverage levels
-    const cloudAmount = (cloudLayers[0].amount || '').toLowerCase();
-    switch (cloudAmount) {
-        case 'overcast': return '☁️'; // Completely cloudy
-        case 'broken': return '🌥️';   // Mostly cloudy
-        case 'scattered': return '⛅'; // Partly cloudy
-        case 'few': return '🌤️';      // Mostly clear
-        default: return isNight ? '🌙' : '☀️'; // Default to clear if unknown
-    }
-} 
+}); 
