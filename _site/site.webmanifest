@@ -1,0 +1,20 @@
+{
+  "name": "How's The Roads?",
+  "short_name": "How's The Roads?",
+  "icons": [
+    {
+      "src": "/assets/images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/appicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#E31837",
+  "background_color": "#000000",
+  "display": "standalone",
+  "start_url": "/"
+} 
