@@ -1,9 +1,9 @@
 # Site settings
-title: How's The Roads? | Live Kansas City Traffic Cameras & Road Conditions
-description: Check live KCMO traffic cameras to navigate Kansas City road conditions with ease. Real-time updates on traffic, weather, and road conditions to plan your commute and avoid delays.
-url: https://howstheroads.com
-author: How's the Roads?
+title: "How's The Roads?"
+description: "Live traffic cameras and current weather conditions for Kansas City roads"
+url: "https://howstheroads.com"
+author: "How's The Roads?"
 
 # Build settings
 markdown: kramdown
-permalink: pretty 
+permalink: pretty
