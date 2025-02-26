@@ -132,10 +132,10 @@ fetch('https://0xblz.github.io/docs/kansascity.json')
 
 /**
  * Fetch current weather data from NOAA API for Kansas City
- * Using a more direct approach with better debugging
+ * Implementation matches the iOS app's WeatherService
  */
 
-// Kansas City coordinates
+// Kansas City coordinates (matching iOS app)
 const lat = "39.2976";
 const lon = "-94.7139";
 
@@ -146,13 +146,13 @@ fetch(`https://api.weather.gov/points/${lat},${lon}`, {
     }
 })
 .then(response => response.json())
-.then(pointData => {
-    console.log('Points API Response:', pointData);
+.then(pointsData => {
+    console.log('Points API Response:', pointsData);
     
-    // Extract the forecast endpoint from the response
-    const forecastHourlyUrl = pointData.properties.forecastHourly;
+    // Extract the forecast endpoint from the response (matching iOS app)
+    const forecastHourlyUrl = pointsData.properties.forecastHourly;
     
-    // Get the hourly forecast directly - more reliable for current temperature
+    // Step 2: Get the hourly forecast (matching iOS app)
     return fetch(forecastHourlyUrl, {
         headers: {
             'User-Agent': '(howstheroads.com, contact@howstheroads.com)'
@@ -162,49 +162,75 @@ fetch(`https://api.weather.gov/points/${lat},${lon}`, {
     .then(forecastData => {
         console.log('Forecast API Response:', forecastData);
         
-        // Get the current period
+        // Get the current period (matching iOS app)
         const currentPeriod = forecastData.properties.periods[0];
         const tempF = currentPeriod.temperature;
         const isNight = !currentPeriod.isDaytime;
         
-        // Get weather condition from the forecast
-        let emoji;
-        const shortForecast = currentPeriod.shortForecast.toLowerCase();
-        
-        if (shortForecast.includes('thunder')) {
-            emoji = '⛈️';
-        } else if (shortForecast.includes('rain') || shortForecast.includes('shower')) {
-            emoji = '🌧️';
-        } else if (shortForecast.includes('snow')) {
-            emoji = '❄️';
-        } else if (shortForecast.includes('fog') || shortForecast.includes('mist')) {
-            emoji = '🌫️';
-        } else if (shortForecast.includes('cloud') || shortForecast.includes('overcast')) {
-            if (shortForecast.includes('partly')) {
-                emoji = '⛅';
-            } else if (shortForecast.includes('mostly')) {
-                emoji = '🌥️';
-            } else {
-                emoji = '☁️';
-            }
-        } else {
-            // Clear or sunny
-            emoji = isNight ? '🌙' : '☀️';
-        }
+        // Get weather condition from the forecast (matching iOS app's determineWeatherEmoji function)
+        const emoji = determineWeatherEmoji(
+            currentPeriod.shortForecast,
+            isNight
+        );
         
         console.log('Weather data processed:', {
             period: currentPeriod,
             tempF: tempF,
-            shortForecast: shortForecast,
+            shortForecast: currentPeriod.shortForecast,
             emoji: emoji,
             isNight: isNight
         });
         
-        // Update the temperature display
+        // Update the temperature display with the same format as iOS
         document.getElementById('temperature-text').textContent = `${emoji} ${tempF}°f in kc`;
     });
 })
 .catch(error => {
     console.error('Weather API Error:', error);
     document.getElementById('temperature-text').textContent = "Unable to load temperature";
-}); 
+});
+
+/**
+ * Determine the appropriate weather emoji based on forecast conditions
+ * This function exactly matches the iOS implementation's determineWeatherEmoji
+ * 
+ * @param {string} shortForecast - The short forecast text from the API
+ * @param {boolean} isNight - Whether it's currently night time
+ * @returns {string} - Weather emoji representing current conditions
+ */
+function determineWeatherEmoji(shortForecast, isNight) {
+    const forecast = shortForecast.toLowerCase();
+    
+    if (forecast.includes('thunder')) {
+        return '⛈️';
+    } else if (forecast.includes('rain') || forecast.includes('shower')) {
+        return '🌧️';
+    } else if (forecast.includes('snow')) {
+        return '❄️';
+    } else if (forecast.includes('fog') || forecast.includes('mist')) {
+        return '🌫️';
+    } else if (forecast.includes('cloud') || forecast.includes('overcast')) {
+        // Check if it's nighttime first
+        if (isNight) {
+            if (forecast.includes('partly')) {
+                return '🌙'; // Moon with some clouds
+            } else if (forecast.includes('mostly')) {
+                return '☁️'; // Just clouds at night
+            } else {
+                return '☁️'; // Overcast at night
+            }
+        } else {
+            // Daytime cloud conditions
+            if (forecast.includes('partly')) {
+                return '⛅';
+            } else if (forecast.includes('mostly')) {
+                return '🌥️';
+            } else {
+                return '☁️';
+            }
+        }
+    } else {
+        // Clear or sunny
+        return isNight ? '��' : '☀️';
+    }
+} 
